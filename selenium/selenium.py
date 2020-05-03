@@ -15,7 +15,7 @@ def find_different(arr):
 
 
 browser = webdriver.Chrome('./chromedriver')
-url = 'https://www.facebook.com/instantgames/play/1099543880229447/'
+url = 'https://www.facebook.com/'
 browser.get(url)
 
 input("Press Enter after the game is started...")

@@ -9,7 +9,7 @@ Facebook Game: https://www.facebook.com/instantgames/play/1099543880229447/
 ```
 git clone https://github.com/andy6804tw/game-helper-with-cv.git
 cd game-helper-with-cv
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 ## Usage
