@@ -16,15 +16,19 @@ with mss.mss() as sct:
     # Read image
     im = cv2.imread("screenshot.png")
     cv2.namedWindow("ROI selector",0)
-    cv2.resizeWindow("ROI selector", 640, 480)
+    cv2.resizeWindow("ROI selector", 1280, 720)
+    # check image size
+    threshold=1
+    if(im.shape[1]>1920):
+        threshold=2
     # Select ROI
     roi = cv2.selectROI(im, False, False)
     cv2.destroyWindow("ROI selector")
     # Part of the screen to capture
-    left=roi[0]/2
-    top=roi[1]/2
-    width=roi[2]/2
-    height=roi[3]/2
+    left=int(roi[0]/threshold)
+    top=int(roi[1]/threshold)
+    width=int(roi[2]/threshold)
+    height=int(roi[3]/threshold)
     monitor = {"top": top, "left": left, "width": width, "height": height}
     print(roi)
     while(1):
@@ -60,7 +64,7 @@ with mss.mss() as sct:
 
         print("fps: {}".format(1 / (time.time() - last_time)))
         # Press "q" to quit
-        if cv2.waitKey(25) & 0xFF == ord("q"):
+        if cv2.waitKey(25) & 0xFF == ord("c"):
             cv2.destroyAllWindows()
             break
 
