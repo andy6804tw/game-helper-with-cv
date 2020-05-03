@@ -19,7 +19,7 @@ with mss.mss() as sct:
     cv2.resizeWindow("ROI selector", 640, 480)
     # Select ROI
     roi = cv2.selectROI(im, False, False)
-
+    cv2.destroyWindow("ROI selector")
     # Part of the screen to capture
     left=roi[0]/2
     top=roi[1]/2
@@ -32,36 +32,33 @@ with mss.mss() as sct:
 
         # Get raw pixels from the screen, save it to a Numpy array
         img = np.array(sct.grab(monitor))
-        cv2.namedWindow("OpenCV",0)
-        cv2.resizeWindow("OpenCV", 640, 480)
         
         #####
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
         circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT,1.2,10)
         if circles is not None:
             # convert the (x, y) coordinates and radius of the circles to integers
             circles = np.round(circles[0, :]).astype("int")
             # loop over the (x, y) coordinates and radius of the circles
-            this = []
+            cycleArray = []
             for (x, y, r) in circles:
-                this.append(list(img[y,x,:]))
-                # draw the circle in the output image, then draw a rectangle
+                cycleArray.append(list(img[y,x,:]))
+                # draw the circle in the output image, and draw a center point
                 # corresponding to the center of the circle
             #print(circles)
-            nn = find_different(this)
+            nn = find_different(cycleArray)
             for num,(x, y, r) in enumerate(circles):
                 if num==nn:
-                    cv2.circle(img, (x, y), r, (0, 255, 0), 4)
-                    cv2.rectangle(img, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
+                    cv2.circle(img, (x, y), r, (0, 255, 0), -1)
+                    cv2.circle(img, (x, y), 5, (0, 0, 255), -1)
         #####
         # Display the picture
-        cv2.resizeWindow("OpenCV", 411, 784)
-        cv2.imshow("OpenCV", img)
+        cv2.namedWindow("Lyto Different Color Helper",0)
+        cv2.resizeWindow("Lyto Different Color Helper", 411, 784)
+        cv2.imshow("Lyto Different Color Helper", img)
 
 
-        # print("fps: {}".format(1 / (time.time() - last_time)))
-
+        print("fps: {}".format(1 / (time.time() - last_time)))
         # Press "q" to quit
         if cv2.waitKey(25) & 0xFF == ord("q"):
             cv2.destroyAllWindows()
