@@ -1,5 +1,5 @@
-pip install numpy
-pip install opencv-python
-pip install mss
+numpy
+opencv-python
+mss
 
 
